@@ -16,4 +16,5 @@ public class AboutScreen {
     public static ViewInteraction versionInfo = onView(allOf(withId(R.id.about_company_info_label_text_view)));
     public static ViewInteraction aboutInfo = onView(allOf(withId(R.id.about_company_info_label_text_view)));
     public static ViewInteraction backButton = onView(allOf(withId(R.id.about_back_image_button)));
+
 }

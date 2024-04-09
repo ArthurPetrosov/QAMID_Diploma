@@ -24,5 +24,4 @@ public class AboutScreenSteps {
         Allure.step("Проверка наличия сведений о разработчике приложения");
         aboutInfo.check(matches(allOf(isDisplayed(), withText(Matchers.not("")))));
     }
-
 }
