@@ -1,4 +1,4 @@
-package AndroidTest.screens;
+package screens;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -8,10 +8,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
-import static AndroidTest.data.DataHelper.waitElement;
 
 import androidx.test.espresso.ViewInteraction;
 
+import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
 public class MainScreen {
@@ -38,26 +38,26 @@ public class MainScreen {
     }
 
     public static void goToNewsScreen() {
-        waitElement(allNewsButtonId);
+        DataHelper.waitElement(allNewsButtonId);
         allNewsButton.perform(click());
     }
 
     public static void goToNewsPageByNavigationMenu() {
-        waitElement(mainMenuButtonId);
+        DataHelper.waitElement(mainMenuButtonId);
         mainMenuButton.perform(click());
         newsButton.check(matches(isDisplayed()));
         newsButton.perform(click());
     }
 
     public static void goToAboutPage() {
-        waitElement(mainMenuButtonId);
+        DataHelper.waitElement(mainMenuButtonId);
         mainMenuButton.perform(click());
         aboutButton.check(matches(isDisplayed()));
         aboutButton.perform(click());
     }
 
     public static void goToQuotesPage() {
-        waitElement(quotesButtonID);
+        DataHelper.waitElement(quotesButtonID);
         quotesButton.perform(click());
     }
 }

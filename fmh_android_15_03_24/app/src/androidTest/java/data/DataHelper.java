@@ -1,4 +1,4 @@
-package AndroidTest.data;
+package data;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -13,11 +13,11 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static AndroidTest.data.DataHelper.RecyclerViewMatcher.withRecyclerView;
-import static AndroidTest.screens.AuthorizationScreen.idSignInButton;
-import static AndroidTest.screens.AuthorizationScreen.loginField;
-import static AndroidTest.screens.MainScreen.LogOutId;
-import static AndroidTest.screens.MainScreen.logOutButton;
+import static data.DataHelper.RecyclerViewMatcher.withRecyclerView;
+import static screens.AuthorizationScreen.idSignInButton;
+import static screens.AuthorizationScreen.loginField;
+import static screens.MainScreen.LogOutId;
+import static screens.MainScreen.logOutButton;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -53,7 +53,6 @@ import java.util.concurrent.TimeoutException;
 
 import ru.iteco.fmhandroid.R;
 
-;
 
 public class DataHelper {
 

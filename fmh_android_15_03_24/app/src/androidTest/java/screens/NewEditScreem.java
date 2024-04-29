@@ -1,4 +1,4 @@
-package AndroidTest.screens;
+package screens;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -12,16 +12,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
-import static AndroidTest.data.DataHelper.clickChildViewWithId;
-import static AndroidTest.data.DataHelper.waitElement;
-import static AndroidTest.screens.AddingNewsScreen.confirmDelete;
-import static AndroidTest.screens.EditNews.saveButton;
-import static AndroidTest.screens.EditNews.statusSwitcher;
+import static screens.AddingNewsScreen.confirmDelete;
+import static screens.EditNews.saveButton;
+import static screens.EditNews.statusSwitcher;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
+import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
 public class NewEditScreem extends NewScreen {
@@ -49,7 +48,7 @@ public class NewEditScreem extends NewScreen {
 
 
     public static void scrollAndClickToNewsWithTittle(String tittle) {
-        waitElement(R.id.news_list_recycler_view);
+        DataHelper.waitElement(R.id.news_list_recycler_view);
         onView(withId(R.id.news_list_recycler_view))
                 .check(matches(isDisplayed()))
                 .perform(RecyclerViewActions.scrollTo(hasDescendant(allOf(withText(tittle)))));
@@ -61,7 +60,7 @@ public class NewEditScreem extends NewScreen {
     public static void editNews(String tittle) {
         scrollAndClickToNewsWithTittle(tittle);
         onView(allOf(withId(R.id.news_item_material_card_view), hasDescendant(withText(tittle))))
-                .perform(clickChildViewWithId(R.id.edit_news_item_image_view));
+                .perform(DataHelper.clickChildViewWithId(R.id.edit_news_item_image_view));
     }
 
     public static void changeNewsStatus(String tittle) {
@@ -74,13 +73,13 @@ public class NewEditScreem extends NewScreen {
     public static void deleteNews(String tittle) {
         scrollAndClickToNewsWithTittle(tittle);
         onView(allOf(withId(R.id.news_item_material_card_view), hasDescendant(withText(tittle))))
-                .perform(clickChildViewWithId(R.id.delete_news_item_image_view));
+                .perform(DataHelper.clickChildViewWithId(R.id.delete_news_item_image_view));
         confirmDelete();
     }
 
     public static void refreshListOfNews() {
         refreshZone.perform(ViewActions.swipeDown());
-        waitElement(R.id.news_list_recycler_view);
+        DataHelper.waitElement(R.id.news_list_recycler_view);
     }
 
 }

@@ -1,14 +1,13 @@
-package AndroidTest.screens;
+package screens;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import static AndroidTest.data.DataHelper.waitElement;
-
 import androidx.test.espresso.ViewInteraction;
 
+import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
 public class EditNews {
@@ -30,6 +29,6 @@ public class EditNews {
         timeField.perform(replaceText(newTime));
         descriptionField.perform(replaceText(newDescription));
         saveButton.perform(click());
-        waitElement(R.id.news_list_recycler_view);
+        DataHelper.waitElement(R.id.news_list_recycler_view);
     }
 }

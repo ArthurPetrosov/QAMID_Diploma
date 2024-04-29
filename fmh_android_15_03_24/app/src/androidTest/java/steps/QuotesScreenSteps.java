@@ -1,5 +1,5 @@
 
-package AndroidTest.steps;
+package steps;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;

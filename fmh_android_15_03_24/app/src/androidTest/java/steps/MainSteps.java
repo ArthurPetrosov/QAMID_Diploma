@@ -1,47 +1,44 @@
 
 
-package AndroidTest.steps;
+package steps;
 
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static org.junit.Assert.assertEquals;
-import static AndroidTest.screens.AuthorizationScreen.successLogin;
-import static AndroidTest.screens.MainScreen.goToAboutPage;
-import static AndroidTest.screens.MainScreen.goToNewsPageByNavigationMenu;
-import static AndroidTest.screens.MainScreen.goToQuotesPage;
-import static AndroidTest.screens.MainScreen.logOut;
-import static AndroidTest.screens.NewScreen.goToNewsEditScreen;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 
 import org.junit.Assert;
 
-import AndroidTest.data.DataHelper;
+import data.DataHelper;
+import screens.AuthorizationScreen;
+import screens.MainScreen;
+import screens.NewScreen;
 
 public class MainSteps {
 
     public static void successLoginStep() {
-        successLogin();
+        AuthorizationScreen.successLogin();
     }
     public static void pressBack() {
         Espresso.pressBack();
     }
     public static void goToNewsEditingPageStep() {
-        goToNewsEditScreen();
+        NewScreen.goToNewsEditScreen();
     }
     public static void goToNewsPageStep() {
-        goToNewsPageByNavigationMenu();
+        MainScreen.goToNewsPageByNavigationMenu();
     }
     public static void goToAboutPageStep() {
-        goToAboutPage();
+        MainScreen.goToAboutPage();
     }
     public static void goToQuotesPageStep() {
-        goToQuotesPage();
+        MainScreen.goToQuotesPage();
     }
     public static void logOutFromApp() {
-        logOut();
+        MainScreen.logOut();
     }
     public static int getHeightBeforeClick(ViewInteraction recyclerView) {
         int[] heightBeforeClick = {0};

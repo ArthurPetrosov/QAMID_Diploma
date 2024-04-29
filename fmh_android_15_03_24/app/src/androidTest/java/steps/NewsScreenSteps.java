@@ -1,4 +1,4 @@
-package AndroidTest.steps;
+package steps;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -6,21 +6,21 @@ import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
-import static AndroidTest.data.Data.categoryForth;
-import static AndroidTest.data.Data.dateNews;
-import static AndroidTest.data.Data.descriptionNews;
-import static AndroidTest.data.Data.timeNews;
-import static AndroidTest.data.Data.tittleNews;
-import static AndroidTest.data.DataHelper.getTextFromNews;
-import static AndroidTest.screens.AddingNewsScreen.addNews;
-import static AndroidTest.screens.NewEditScreem.scrollNews;
-import static AndroidTest.screens.NewScreen.filterNewsByDate;
+import static data.Data.categoryForth;
+import static data.Data.dateNews;
+import static data.Data.descriptionNews;
+import static data.Data.timeNews;
+import static data.Data.tittleNews;
+import static data.DataHelper.getTextFromNews;
+import static screens.AddingNewsScreen.addNews;
+import static screens.NewEditScreem.scrollNews;
+import static screens.NewScreen.filterNewsByDate;
 
 import androidx.test.espresso.ViewInteraction;
 
 import org.junit.Assert;
 
-import AndroidTest.data.DataHelper;
+import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
 public class NewsScreenSteps {

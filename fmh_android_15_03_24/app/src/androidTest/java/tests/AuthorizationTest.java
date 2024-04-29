@@ -1,14 +1,5 @@
-package AndroidTest.tests;
+package tests;
 
-
-import static AndroidTest.data.Data.correctLogin;
-import static AndroidTest.data.Data.correctPassword;
-import static AndroidTest.data.Data.wrongLogin;
-import static AndroidTest.data.Data.wrongPassword;
-import static AndroidTest.data.DataHelper.getUniqueScreenshotName;
-import static AndroidTest.data.DataHelper.waitElement;
-import static AndroidTest.screens.AuthorizationScreen.checkLogOutAndLogOutIfNot;
-import static AndroidTest.screens.MainScreen.LogOutId;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -17,7 +8,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import AndroidTest.steps.AuthorizationScreenSteps;
+import steps.AuthorizationScreenSteps;
+import data.Data;
+import data.DataHelper;
+import screens.AuthorizationScreen;
+import screens.MainScreen;
 import io.qameta.allure.android.rules.ScreenshotRule;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Epic;
@@ -33,7 +28,7 @@ public class AuthorizationTest {
 
     @Before
     public void setUp() {
-        checkLogOutAndLogOutIfNot();
+        AuthorizationScreen.checkLogOutAndLogOutIfNot();
     }
 
 
@@ -43,20 +38,22 @@ public class AuthorizationTest {
 
     @Rule
     public ScreenshotRule screenshotRule =
-            new ScreenshotRule(ScreenshotRule.Mode.FAILURE, getUniqueScreenshotName());
+            new ScreenshotRule(ScreenshotRule.Mode.FAILURE, DataHelper.getUniqueScreenshotName());
+
+
 
 
 
     @Test
     @DisplayName("Авторизация с валидными логином и паролем")
     public void correctLoginAndPasswordAuthorizationTest() {
-        AuthorizationScreenSteps.login(correctLogin, correctPassword);
-        waitElement(LogOutId);
+        AuthorizationScreenSteps.login(Data.correctLogin, Data.correctPassword);
+        DataHelper.waitElement(MainScreen.LogOutId);
         AuthorizationScreenSteps.logOutIsVisible();
     }
 
 
-    @Test
+     @Test
     @DisplayName("Авторизация с незаполненными полями логина и пароля")
     public void emptyLoginAndPasswordAuthorizationTest() {
         AuthorizationScreenSteps.login("", "");
@@ -66,30 +63,29 @@ public class AuthorizationTest {
     @Test
     @DisplayName("Ввод валидного логина и невалидого пароля при авторизации")
     public void correctLoginWrongPasswordAuthorizationTest() {
-        AuthorizationScreenSteps.login(correctLogin, wrongPassword);
+        AuthorizationScreenSteps.login(Data.correctLogin, Data.wrongPassword);
         AuthorizationScreenSteps.loginOrPasswordIsWrong();
     }
 
     @Test
     @DisplayName("Ввод невалидного логина и валидого пароля при авторизации")
     public void wrongLoginWrongCorrectPasswordAuthorizationTest() {
-        AuthorizationScreenSteps.login(wrongLogin, correctPassword);
+        AuthorizationScreenSteps.login(Data.wrongLogin, Data.correctPassword);
         AuthorizationScreenSteps.loginOrPasswordIsWrong();
     }
 
     @Test
     @DisplayName("Ввод валидного логина и пустого пароля при авторизации")
     public void correctLoginEmptyPasswordAuthorizationTest() {
-        AuthorizationScreenSteps.login(correctLogin, "");
+        AuthorizationScreenSteps.login(Data.correctLogin, "");
         AuthorizationScreenSteps.loginOrPasswordDoesntBeEmpty();
     }
 
     @Test
     @DisplayName("Ввод пустого логина и валидного пароля при авторизации")
     public void emptyLoginCorrectPasswordAuthorizationTest() {
-        AuthorizationScreenSteps.login("", correctPassword);
+        AuthorizationScreenSteps.login("", Data.correctPassword);
         AuthorizationScreenSteps.loginOrPasswordDoesntBeEmpty();
-    }
-
+    } //
 
 }

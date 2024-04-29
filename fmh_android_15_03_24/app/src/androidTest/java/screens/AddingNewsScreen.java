@@ -1,4 +1,4 @@
-package AndroidTest.screens;
+package screens;
 
 
 import  static androidx.test.espresso.Espresso.onView;
@@ -8,11 +8,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.CoreMatchers.allOf;
-import static AndroidTest.data.DataHelper.waitElement;
-import static AndroidTest.screens.NewEditScreem.addNewsButton;
 
 import androidx.test.espresso.ViewInteraction;
 
+import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
 public class AddingNewsScreen {
@@ -31,7 +30,7 @@ public class AddingNewsScreen {
 
 
     public static void fillingNewsFields(String category, String tittle, String date, String time, String description) {
-        addNewsButton.perform(click());
+        NewEditScreem.addNewsButton.perform(click());
         categoryField.perform(replaceText(category));
         tittleField.perform(replaceText(tittle));
         dateField.perform(replaceText(date));
@@ -45,7 +44,7 @@ public class AddingNewsScreen {
     }
 
     public static void confirmDelete() {
-        waitElement(android.R.id.button1);
+        DataHelper.waitElement(android.R.id.button1);
         confirmDeleteNewsButton.perform(click());
     }
 }

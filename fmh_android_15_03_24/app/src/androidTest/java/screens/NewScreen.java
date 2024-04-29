@@ -1,21 +1,21 @@
-package AndroidTest.screens;
+package screens;
 
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static AndroidTest.data.DataHelper.waitElement;
-import static AndroidTest.screens.FilterNews.categoryNewsField;
-import static AndroidTest.screens.FilterNews.checkboxActive;
-import static AndroidTest.screens.FilterNews.checkboxNotActive;
-import static AndroidTest.screens.FilterNews.dateEndPublish;
-import static AndroidTest.screens.FilterNews.dateStartPublish;
-import static AndroidTest.screens.FilterNews.filterButton;
+import static screens.FilterNews.categoryNewsField;
+import static screens.FilterNews.checkboxActive;
+import static screens.FilterNews.checkboxNotActive;
+import static screens.FilterNews.dateEndPublish;
+import static screens.FilterNews.dateStartPublish;
+import static screens.FilterNews.filterButton;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 
+import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
 public class NewScreen {
@@ -27,7 +27,7 @@ public class NewScreen {
     public static ViewInteraction descriptionText = onView(withId(R.id.news_item_description_text_view));
 
     public static void sortingNews() {
-        waitElement(R.id.news_list_recycler_view);
+        DataHelper.waitElement(R.id.news_list_recycler_view);
         sortingNewsButton.perform(click());
     }
 
@@ -48,7 +48,7 @@ public class NewScreen {
             checkboxNotActive.perform(click());
         }
         filterButton.perform(click());
-        waitElement(R.id.news_list_recycler_view);
+        DataHelper.waitElement(R.id.news_list_recycler_view);
     }
 
     public static void filterNewsByCategory(String category) {
@@ -75,7 +75,7 @@ public class NewScreen {
     }
 
     public static void scrollNewsToPosition(int position) {
-        waitElement(R.id.news_list_recycler_view);
+        DataHelper.waitElement(R.id.news_list_recycler_view);
         onView(withId(R.id.news_list_recycler_view)).perform(RecyclerViewActions.scrollToPosition(position));
     }
 

@@ -1,7 +1,7 @@
-package AndroidTest.data;
+package data;
 
 
-import static AndroidTest.data.DataHelper.getStringFromResource;
+import static data.DataHelper.getStringFromResource;
 
 import net.datafaker.Faker;
 

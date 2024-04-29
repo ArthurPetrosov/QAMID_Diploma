@@ -1,4 +1,4 @@
-package AndroidTest.screens;
+package screens;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -9,15 +9,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.supportsInputMethods;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.CoreMatchers.allOf;
-import static AndroidTest.data.Data.correctLogin;
-import static AndroidTest.data.Data.correctPassword;
-import static AndroidTest.data.DataHelper.isLogIn;
-import static AndroidTest.data.DataHelper.isLogOut;
-import static AndroidTest.data.DataHelper.waitElement;
-import static AndroidTest.screens.MainScreen.logOut;
+import static screens.MainScreen.logOut;
 
 import androidx.test.espresso.ViewInteraction;
 
+import data.Data;
+import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
 public class AuthorizationScreen {
@@ -28,24 +25,24 @@ public class AuthorizationScreen {
     public static int idSignInButton = R.id.enter_button;
 
     public static void login(String login, String password) {
-        waitElement(AuthorizationScreen.idSignInButton);
+        DataHelper.waitElement(AuthorizationScreen.idSignInButton);
         loginField.perform(replaceText(login));
         passwordField.perform(replaceText(password));
         loginButton.check(matches(isDisplayed())).perform(click());
     }
 
     public static void successLogin() {
-        login(correctLogin, correctPassword);
+        login(Data.correctLogin, Data.correctPassword);
     }
 
     public static void checkLogInAndLogInIfNot() {
-        if (isLogIn()) {
+        if (DataHelper.isLogIn()) {
             successLogin();
         }
     }
 
     public static void checkLogOutAndLogOutIfNot() {
-        if (isLogOut()) {
+        if (DataHelper.isLogOut()) {
             logOut();
         }
     }

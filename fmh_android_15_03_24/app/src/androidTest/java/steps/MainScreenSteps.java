@@ -1,29 +1,27 @@
 
-package AndroidTest.steps;
+package steps;
 
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static org.junit.Assert.assertEquals;
-import static AndroidTest.screens.AuthorizationScreen.successLogin;
-import static AndroidTest.screens.MainScreen.goToAboutPage;
-import static AndroidTest.screens.MainScreen.goToNewsPageByNavigationMenu;
-import static AndroidTest.screens.MainScreen.goToQuotesPage;
-import static AndroidTest.screens.MainScreen.logOut;
-import static AndroidTest.screens.NewScreen.goToNewsEditScreen;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 
 import org.junit.Assert;
 
-import AndroidTest.data.DataHelper;import io.qameta.allure.kotlin.Allure;import io.qameta.allure.kotlin.Step;
+import data.DataHelper;
+import screens.AuthorizationScreen;
+import screens.MainScreen;
+import screens.NewScreen;
+import io.qameta.allure.kotlin.Allure;import io.qameta.allure.kotlin.Step;
 
 public class MainScreenSteps {
 
     @Step("Логинимся в валидными логином и паролем")
     public static void successLoginStep() {Allure.step("Логинимся в валидными логином и паролем");
-        successLogin();
+        AuthorizationScreen.successLogin();
     }
     @Step("Нажимаем системную кнопку Назад")
     public static void pressBack() {Allure.step("Нажимаем системную кнопку Назад");
@@ -31,24 +29,24 @@ public class MainScreenSteps {
     }
     @Step("Переходим в раздел редактирования новостей")
     public static void goToNewsEditingPageStep() {Allure.step("Переходим в раздел редактирования новостей");
-        goToNewsEditScreen();
+        NewScreen.goToNewsEditScreen();
     }
     @Step("Переходим в раздел Новости")
     public static void goToNewsPageStep() {Allure.step("Переходим в раздел Новости");
-        goToNewsPageByNavigationMenu();
+        MainScreen.goToNewsPageByNavigationMenu();
     }
     @Step("Переходим в раздел О приложении")
     public static void goToAboutPageStep() {Allure.step("Переходим в раздел О приложении");
-        goToAboutPage();
+        MainScreen.goToAboutPage();
     }
     @Step("Переходим в раздел Цитаты")
     public static void goToQuotesPageStep() {Allure.step("Переходим в раздел Цитаты");
-        goToQuotesPage();
+        MainScreen.goToQuotesPage();
     }
 
     @Step("Разлогиниваемся из приложения")
     public static void logOutFromApp() {Allure.step("Разлогиниваемся из приложения");
-        logOut();
+        MainScreen.logOut();
     }@Step("Получаем высоту первого элемента списка до клика")
     public static int getHeightBeforeClick(ViewInteraction recyclerView) {Allure.step("Получаем высоту первого элемента списка до клика");
         int[] heightBeforeClick = {0};

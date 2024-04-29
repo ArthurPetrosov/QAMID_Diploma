@@ -1,10 +1,10 @@
-package AndroidTest.tests;
+package tests;
 
-import static AndroidTest.screens.AuthorizationScreen.checkLogInAndLogInIfNot;
-import static AndroidTest.steps.AboutScreenSteps.isAppDeveloperDisplayed;
-import static AndroidTest.steps.AboutScreenSteps.isAppVersionDisplayed;
-import static AndroidTest.steps.MainScreenSteps.goToAboutPageStep;
-import static AndroidTest.data.DataHelper.getUniqueScreenshotName;
+import static screens.AuthorizationScreen.checkLogInAndLogInIfNot;
+import static steps.AboutScreenSteps.isAppDeveloperDisplayed;
+import static steps.MainScreenSteps.goToAboutPageStep;
+import static data.DataHelper.getUniqueScreenshotName;
+import static steps.AboutScreenSteps.isAppVersionDisplayed;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -53,4 +53,7 @@ public class AboutScreenTest {
     public void testVisibleDeveloper() {
         isAppDeveloperDisplayed();
     }
+
+
+
 }
