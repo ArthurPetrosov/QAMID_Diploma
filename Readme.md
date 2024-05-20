@@ -16,9 +16,9 @@
 
 * ***[Plan](https://github.com/ArthurPetrosov/QA_Diploma)***
 
-* ***[Check-list](https://github.com/ArthurPetrosov/QA_Diploma)***
+* ***[Check-list](https://docs.google.com/spreadsheets/d/1Q6AskZiSl0VI6rcCMvH2BwlXkXiNzRND/edit?usp=sharing&ouid=113078180960771241998&rtpof=true&sd=true)***
 
-* ***[Test-cases](https://github.com/ArthurPetrosov/QA_Diploma)***
+* ***[Test-cases](https://docs.google.com/spreadsheets/d/1hHaSAK2a7GObKjU7suEjAoZKfVA7dtrV/edit#gid=1024578234)***
 
 * ***[Bugs issues](https://github.com/ArthurPetrosov/QA_Diploma)***
 
@@ -35,7 +35,7 @@
 
 ## Запуск тестов
 
-Запустить тесты консольной командой **./gradlew connectedAndroidTest** или выбрать пункт контекстного меню **Run 'All Tests'**, или нажать **Shift+Ctl+R**
+Запустить тесты консольной командой **./gradlew connectedAndroidTest** или выбрать пункт контекстного меню **Run 'All Tests'**
 
 
 ## Создание отчета Allure

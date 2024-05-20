@@ -23,23 +23,6 @@ public class Data {
     public static final String wrongLogin = "login11";
     public static final String wrongPassword = "password11";
 
-    // Данные для заявки
-
-    public static final String tittleClaim = "Diplom_" + faker.number().numberBetween(1, 9999);
-    public static final String tittleClaimOneCharacter = faker.letterify("?");
-    public static final String tittleClaimFortyNineCharacter = "Diplom_" + faker.text().text(40);
-    public static final String tittleClaimFiftyCharacter = "Diplom_" + faker.text().text(41);
-    public static final String tittleClaimFiftyOneCharacter = "Diplom_" + faker.text().text(42);
-    public static final String newTittleClaim = "Diplom_" + faker.number().numberBetween(1, 9999) + "new";
-    public static final String dateClaim = formatterDate.format(date.plusDays(1));
-    public static final String newDateClaim = formatterDate.format(date.plusDays(2));
-    public static final String timeClaim = formatterTime.format(date.plusMinutes(2));
-    public static final String newTimeClaim = formatterTime.format(date.plusMinutes(4));
-    public static final String descriptionClaim = "Description" + faker.beer().toString();
-    public static final String newDescriptionClaim = "Description" + faker.rickAndMorty().toString();
-    public static final String commentClaim = "Comment_" + faker.number().numberBetween(1, 9999);
-    public static final String commentClaimEditind = "Comment_" + faker.number().numberBetween(1, 9999);
-
 
     // Страница о приложении
     public static final String urlPrivacyPolicy = "https://vhospice.org/#/privacy-policy/";

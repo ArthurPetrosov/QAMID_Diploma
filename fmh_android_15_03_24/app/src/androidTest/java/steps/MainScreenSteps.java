@@ -1,78 +1,60 @@
-
 package steps;
 
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.doubleClick;
-import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import static org.junit.Assert.assertEquals;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.ViewInteraction;
+import static screens.AboutScreen.aboutInfo;
+import static screens.MainScreen.goToAboutPage;
+import static screens.MainScreen.goToNewsPage;
+import static screens.MainScreen.goToNewsPageByNavigationMenu;
+import static screens.MainScreen.goToQuotesPage;
+import static screens.NewsScreen.editNewsButton;
+import static screens.QuotesScreen.header;
 
-import org.junit.Assert;
-
-import data.DataHelper;
-import screens.AuthorizationScreen;
-import screens.MainScreen;
-import screens.NewScreen;
-import io.qameta.allure.kotlin.Allure;import io.qameta.allure.kotlin.Step;
+import io.qameta.allure.kotlin.Allure;
+import io.qameta.allure.kotlin.Step;
 
 public class MainScreenSteps {
 
-    @Step("Логинимся в валидными логином и паролем")
-    public static void successLoginStep() {Allure.step("Логинимся в валидными логином и паролем");
-        AuthorizationScreen.successLogin();
-    }
-    @Step("Нажимаем системную кнопку Назад")
-    public static void pressBack() {Allure.step("Нажимаем системную кнопку Назад");
-        Espresso.pressBack();
-    }
-    @Step("Переходим в раздел редактирования новостей")
-    public static void goToNewsEditingPageStep() {Allure.step("Переходим в раздел редактирования новостей");
-        NewScreen.goToNewsEditScreen();
-    }
-    @Step("Переходим в раздел Новости")
-    public static void goToNewsPageStep() {Allure.step("Переходим в раздел Новости");
-        MainScreen.goToNewsPageByNavigationMenu();
-    }
-    @Step("Переходим в раздел О приложении")
-    public static void goToAboutPageStep() {Allure.step("Переходим в раздел О приложении");
-        MainScreen.goToAboutPage();
-    }
-    @Step("Переходим в раздел Цитаты")
-    public static void goToQuotesPageStep() {Allure.step("Переходим в раздел Цитаты");
-        MainScreen.goToQuotesPage();
+    @Step("Переходим в раздел Новости с помощью кнопки в меню навигации приложения ")
+    public static void goToNewsPageWithPressNavigationMenuButton() {
+        Allure.step("Переходим в раздел Новости с помощью кнопки в меню навигации приложения");
+        goToNewsPageByNavigationMenu();
     }
 
-    @Step("Разлогиниваемся из приложения")
-    public static void logOutFromApp() {Allure.step("Разлогиниваемся из приложения");
-        MainScreen.logOut();
-    }@Step("Получаем высоту первого элемента списка до клика")
-    public static int getHeightBeforeClick(ViewInteraction recyclerView) {Allure.step("Получаем высоту первого элемента списка до клика");
-        int[] heightBeforeClick = {0};
-        recyclerView.perform(new DataHelper.GetHeightAfterClickViewAction(heightBeforeClick));
-        return heightBeforeClick[0];
+    @Step("Переходим в раздел Новости с помощью кнопки на главной странице приложения ")
+    public static void goToNewsPageWithPressButtonOnMainPage() {
+        Allure.step("Переходим в раздел Новости с помощью кнопки на главной странице приложения");
+        goToNewsPage();
     }
-    @Step("Кликаем на первом элементе списка, чтобы элемент развернулся")
-    public static void clickFirstItem(ViewInteraction recyclerView) {Allure.step("Кликаем на первом элементе списка, чтобы элемент развернулся");
-        recyclerView.perform(actionOnItemAtPosition(0, click()));
+
+    @Step("Переходим в раздел О приложении с помощью кнопки в меню навигации приложения ")
+    public static void goToAboutPageWithPressNavigationMenuButton() {
+        Allure.step("Переходим в раздел О приложении с помощью кнопки в меню навигации приложения");
+        goToAboutPage();
     }
-    @Step("Получаем высоту первого элемента списка после клика")
-    public static int getHeightAfterClick(ViewInteraction recyclerView) {Allure.step("Получаем высоту первого элемента списка после клика");
-        int[] heightAfterClick = {0};
-        recyclerView.perform(new DataHelper.GetHeightAfterClickViewAction(heightAfterClick));
-        return heightAfterClick[0];
+
+    @Step("Переходим в раздел Цитаты с помощью кнопки на главной странице приложения ")
+    public static void goToQuotesPageWithPressButtonOnMainPage() {
+        Allure.step("Переходим в раздел Цитаты с помощью кнопки на главной странице приложения");
+        goToQuotesPage();
     }
-    @Step("Проверяем, что высота первого элемента списка увеличилась после клика")
-    public static void checkHeightAfterClick(int heightBeforeClick, int heightAfterClick) {Allure.step("Проверяем, что высота первого элемента списка увеличилась после клика");
-        Assert.assertTrue(heightBeforeClick < heightAfterClick);
+
+    @Step("Проверяем, что видна кнопка перехода в раздел редактирования новостей")
+    public static void isEditingNewsButtonDisplayed() {
+        Allure.step("Проверяем, что видна кнопка перехода в раздел редактирования новостей");
+        editNewsButton.check(matches(isDisplayed()));
     }
-    @Step("Кликаем дважды на первом элементе списка, чтобы элемент развернулся и свернулся")
-    public static void doubleClickFirstItem(ViewInteraction recyclerView) {Allure.step("Кликаем дважды на первом элементе списка, чтобы элемент развернулся и свернулся");
-        recyclerView.perform(actionOnItemAtPosition(0, doubleClick()));
+
+    @Step("Проверяем, что видна информация о разработчике приложения")
+    public static void isDeveloperTextViewDisplayed() {
+        Allure.step("Проверяем, что видна информация о разработчике приложения");
+        aboutInfo.check(matches(isDisplayed()));
     }
-    @Step("Проверяем, что высота первого элемента списка осталась той же после двойного клика")
-    public static void checkHeightAfterDoubleClick(int heightBeforeClick, int heightAfterClick) {Allure.step("Проверяем, что высота первого элемента списка осталась той же после двойного клика");
-        assertEquals(heightBeforeClick, heightAfterClick);
+
+    @Step("Проверяем, что виден заголовок раздела Цитаты")
+    public static void isHeaderQuotesPageDisplayed() {
+        Allure.step("Проверяем, что виден заголовок раздела Цитаты");
+        header.check(matches(isDisplayed()));
     }
 }

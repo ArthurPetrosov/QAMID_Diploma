@@ -13,8 +13,8 @@ import static data.Data.timeNews;
 import static data.Data.tittleNews;
 import static data.DataHelper.getTextFromNews;
 import static screens.AddingNewsScreen.addNews;
-import static screens.NewEditScreem.scrollNews;
-import static screens.NewScreen.filterNewsByDate;
+import static screens.NewsEditScreen.scrollNews;
+import static screens.NewsScreen.filterNewsByDate;
 
 import androidx.test.espresso.ViewInteraction;
 

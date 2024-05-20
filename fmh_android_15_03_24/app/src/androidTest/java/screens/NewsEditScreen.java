@@ -23,7 +23,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
-public class NewEditScreem extends NewScreen {
+public class NewsEditScreen extends NewsScreen {
 
     public static ViewInteraction addNewsButton = onView(withId(R.id.add_news_image_view));
     public static ViewInteraction categoryIconImage = onView(withId(R.id.category_icon_image_view));

@@ -8,19 +8,27 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+
+import static screens.NewsScreen.errorAddingMessageId;
+import static data.DataHelper.waitUntilVisible;
+
 import data.Data;
 import data.DataHelper;
+import io.qameta.allure.kotlin.Allure;
+import io.qameta.allure.kotlin.Step;
+import ru.iteco.fmhandroid.R;
 import screens.AddingNewsScreen;
 import screens.EditNews;
 import screens.NewsEditScreen;
 import screens.NewsScreen;
-import io.qameta.allure.kotlin.Allure;
-import io.qameta.allure.kotlin.Step;
-import ru.iteco.fmhandroid.R;
 
-public class NewEditScreenSteps {
+public class NewsEditScreenSteps {
 
-
+    @Step("Проверяем сообщение о недопустимости наличия пустых полей при создании новости")
+    public static void neverFieldsDoesntBeEmptyMessage() {
+        Allure.step("Проверяем сообщение о недопустимости наличия пустых полей при создании новости");
+        waitUntilVisible(DataHelper.checkToast(errorAddingMessageId, true));
+    }
     @Step("Получаем количество элементов в списке новостей")
     public static int getItemCount() {
         Allure.step("Получаем количество элементов в списке новостей");
@@ -224,12 +232,6 @@ public class NewEditScreenSteps {
         Allure.step("Пытаемся создать новость с незаполненным полем Описание");
         AddingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, Data.dateNews, Data.timeNews, "");
     }
-
-    /*@Step("Проверяем сообщение о недопустимости наличия пустых полей при создании новости")
-    public static void neverFieldsDoesntBeEmptyMessage() {
-        Allure.step("Проверяем сообщение о недопустимости наличия пустых полей при создании новости");
-        waitUntilVisible(DataHelper.checkToast(errorAddingMessageId, true));
-    }*/
 
     @Step("Заполняем все поля создаваемой новости")
     public static void fillingAllFieldsNews() {

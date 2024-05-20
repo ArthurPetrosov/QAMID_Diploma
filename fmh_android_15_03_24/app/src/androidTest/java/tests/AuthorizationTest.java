@@ -86,6 +86,6 @@ public class AuthorizationTest {
     public void emptyLoginCorrectPasswordAuthorizationTest() {
         AuthorizationScreenSteps.login("", Data.correctPassword);
         AuthorizationScreenSteps.loginOrPasswordDoesntBeEmpty();
-    } //
+    }
 
 }

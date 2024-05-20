@@ -2,7 +2,7 @@ package tests;
 
 import static screens.AuthorizationScreen.checkLogInAndLogInIfNot;
 import static steps.AboutScreenSteps.isAppDeveloperDisplayed;
-import static steps.MainScreenSteps.goToAboutPageStep;
+import static steps.MainSteps.goToAboutPageStep;
 import static data.DataHelper.getUniqueScreenshotName;
 import static steps.AboutScreenSteps.isAppVersionDisplayed;
 

@@ -22,6 +22,7 @@ public class NewsScreen {
     public static ViewInteraction sortingNewsButton = onView(withId(R.id.sort_news_material_button));
     public static ViewInteraction editNewsButton = onView(withId(R.id.edit_news_material_button));
     public static ViewInteraction filterNewsButton = onView(withId(R.id.filter_news_material_button));
+    public static int errorAddingMessageId = R.string.empty_fields;
 
     public static ViewInteraction tittleText = onView(withId(R.id.news_item_title_text_view));
     public static ViewInteraction descriptionText = onView(withId(R.id.news_item_description_text_view));
@@ -30,7 +31,6 @@ public class NewsScreen {
         DataHelper.waitElement(R.id.news_list_recycler_view);
         sortingNewsButton.perform(click());
     }
-
 
     public static void filterNewsByDate(String startDate, String endDate) {
         filterNewsButton.perform(click());

@@ -30,7 +30,7 @@ public class AddingNewsScreen {
 
 
     public static void fillingNewsFields(String category, String tittle, String date, String time, String description) {
-        NewEditScreem.addNewsButton.perform(click());
+        NewsEditScreen.addNewsButton.perform(click());
         categoryField.perform(replaceText(category));
         tittleField.perform(replaceText(tittle));
         dateField.perform(replaceText(date));

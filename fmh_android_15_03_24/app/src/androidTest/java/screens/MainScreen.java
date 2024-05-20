@@ -60,4 +60,8 @@ public class MainScreen {
         DataHelper.waitElement(quotesButtonID);
         quotesButton.perform(click());
     }
+    public static void goToNewsPage() {
+        DataHelper.waitElement(allNewsButtonId);
+        allNewsButton.perform(click());
+    }
 }
