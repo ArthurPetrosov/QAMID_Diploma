@@ -18,7 +18,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
-public class NewScreen {
+public class NewsScreen {
     public static ViewInteraction sortingNewsButton = onView(withId(R.id.sort_news_material_button));
     public static ViewInteraction editNewsButton = onView(withId(R.id.edit_news_material_button));
     public static ViewInteraction filterNewsButton = onView(withId(R.id.filter_news_material_button));
