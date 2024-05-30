@@ -2,7 +2,6 @@ package data;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -10,14 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static data.DataHelper.RecyclerViewMatcher.withRecyclerView;
-import static screens.AuthorizationScreen.idSignInButton;
-import static screens.AuthorizationScreen.loginField;
-import static screens.MainScreen.LogOutId;
-import static screens.MainScreen.logOutButton;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -30,12 +22,10 @@ import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.Root;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
@@ -47,20 +37,18 @@ import org.hamcrest.TypeSafeMatcher;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeoutException;
 
 import ru.iteco.fmhandroid.R;
 
-
 public class DataHelper {
-
 
     public static ViewAction waitDisplayed(final int viewId, final long millis) {
         return new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
+
                 return isRoot();
             }
 
@@ -97,9 +85,41 @@ public class DataHelper {
 
 
     public static void waitElement(int id) {
-        onView(isRoot()).perform(waitDisplayed(id, 7000));
+
+        onView(isRoot()).perform(waitDisplayed(id, 5000));
     }
 
+    public static String getStringFromResource(int resourceId) {
+        Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        return targetContext.getResources().getString(resourceId);
+    }
+    public static class GetHeightAfterClickViewAction implements ViewAction {
+
+        private int[] heightAfterClick;
+
+        public GetHeightAfterClickViewAction(int[] heightAfterClick) {
+            this.heightAfterClick = heightAfterClick;
+        }
+
+        @Override
+        public Matcher<View> getConstraints() {
+            return isAssignableFrom(RecyclerView.class);
+        }
+
+        @Override
+        public String getDescription() {
+            return "Get height after click";
+        }
+
+        @Override
+        public void perform(UiController uiController, View view) {
+            RecyclerView recyclerView = (RecyclerView) view;
+            View firstItem = recyclerView.getChildAt(0);
+            if (firstItem != null) {
+                heightAfterClick[0] = firstItem.getHeight();
+            }
+        }
+    }
 
     public static void waitUntilVisible(View view) {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -119,27 +139,6 @@ public class DataHelper {
         }
     }
 
-    public static class ToastMatcher extends TypeSafeMatcher<Root> {
-
-        @Override
-        public void describeTo(Description description) {
-            description.appendText("is toast");
-        }
-
-        @Override
-        public boolean matchesSafely(Root root) {
-            int type = root.getWindowLayoutParams().get().type;
-            if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
-                IBinder windowToken = root.getDecorView().getWindowToken();
-                IBinder appToken = root.getDecorView().getApplicationWindowToken();
-                if (windowToken == appToken) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
     public static ViewInteraction emptyToast(int id) {
         return onView(withText(id)).inRoot(new DataHelper.ToastMatcher());
     }
@@ -156,66 +155,88 @@ public class DataHelper {
     public static void waitUntilVisible(ViewInteraction inRoot) {
     }
 
-
-    public static class RecyclerViewAssertions {
-        public static ViewAssertion withRowContaining(final Matcher<View> viewMatcher) {
-            assertNotNull(viewMatcher);
-
-            return new ViewAssertion() {
-
-
-                @Override
-                public void check(View view, NoMatchingViewException noViewException) {
-                    if (noViewException != null) {
-                        throw noViewException;
-                    }
-
-                    assertTrue(view instanceof RecyclerView);
-
-                    RecyclerView recyclerView = (RecyclerView) view;
-                    final RecyclerView.Adapter adapter = recyclerView.getAdapter();
-                    for (int position = 0; position < adapter.getItemCount(); position++) {
-                        int itemType = adapter.getItemViewType(position);
-                        RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(recyclerView, itemType);
-                        adapter.bindViewHolder(viewHolder, position);
-
-                        if (viewHolderMatcher(hasDescendant(viewMatcher)).matches(viewHolder)) {
-                            return;
+    public static int getRecyclerViewItemCount(@IdRes int recyclerViewId) {
+        final int[] count = new int[1];
+        onView(allOf(withId(recyclerViewId), isDisplayed()))
+                .check((view, noViewFoundException) -> {
+                    if (view instanceof RecyclerView) {
+                        RecyclerView recyclerView = (RecyclerView) view;
+                        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+                        if (adapter != null) {
+                            count[0] = adapter.getItemCount();
                         }
                     }
-
-                    fail("No match found");
-                }
-            };
-        }
-
-        public static Matcher<RecyclerView.ViewHolder> viewHolderMatcher(final Matcher<View> itemViewMatcher) {
-            return new TypeSafeMatcher<RecyclerView.ViewHolder>() {
-
-                @Override
-                public boolean matchesSafely(RecyclerView.ViewHolder viewHolder) {
-                    return itemViewMatcher.matches(viewHolder.itemView);
-                }
-
-                @Override
-                public void describeTo(Description description) {
-                    description.appendText("holder with view: ");
-                    itemViewMatcher.describeTo(description);
-                }
-            };
-        }
+                });
+        return count[0];
     }
 
+    public static String getTextFromNews(int fieldId, int position) {
+        final String[] itemDateText = new String[1];
+        onView(withRecyclerView(R.id.news_list_recycler_view).atPosition(position))
+                .check((view, noViewFoundException) -> {
+                    if (noViewFoundException != null) {
+                        throw noViewFoundException;
+                    }
+                    TextView dateTextView = view.findViewById(fieldId);
+                    itemDateText[0] = dateTextView.getText().toString();
+                });
+        return itemDateText[0];
+    }
+
+    public static ViewAction clickChildViewWithId(final int id) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return allOf(isAssignableFrom(ViewGroup.class), isDisplayed());
+            }
+
+            @Override
+            public String getDescription() {
+
+                return "click child view with id " + id;
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                View childView = view.findViewById(id);
+                childView.performClick();
+            }
+        };
+    }
+
+    public static String generateScreenshotName(String testName) {
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+        return testName + "_" + timestamp + ".png";
+    }
+
+    public static class ToastMatcher extends TypeSafeMatcher<Root> {
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("is toast");
+        }
+
+        @Override
+        public boolean matchesSafely(Root root) {
+            int type = root.getWindowLayoutParams().get().type;
+            if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
+                IBinder windowToken = root.getDecorView().getWindowToken();
+                IBinder appToken = root.getDecorView().getApplicationWindowToken();
+                return windowToken == appToken;
+            }
+            return false;
+        }
+    }
 
     public static class RecyclerViewMatcher {
         private final int recyclerViewId;
 
-        public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
-            return new RecyclerViewMatcher(recyclerViewId);
-        }
-
         public RecyclerViewMatcher(int recyclerViewId) {
             this.recyclerViewId = recyclerViewId;
+        }
+
+        public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
+            return new RecyclerViewMatcher(recyclerViewId);
         }
 
         public Matcher<View> atPosition(final int position) {
@@ -267,142 +288,4 @@ public class DataHelper {
             };
         }
     }
-
-    public static String getTextFromViewInteraction(ViewInteraction viewInteraction) {
-        final String[] text = {""};
-        viewInteraction.perform(new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return isAssignableFrom(TextView.class);
-            }
-
-            @Override
-            public String getDescription() {
-                return "Getting text from ViewInteraction";
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                TextView textView = (TextView) view;
-                text[0] = textView.getText().toString();
-            }
-        });
-        return text[0];
-    }
-
-    public static String getStringFromResource(int resourceId) {
-        Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        return targetContext.getResources().getString(resourceId);
-    }
-
-    public static int getRecyclerViewItemCount(@IdRes int recyclerViewId) {
-        final int[] count = new int[1];
-        onView(allOf(withId(recyclerViewId), isDisplayed()))
-                .check((view, noViewFoundException) -> {
-                    if (view instanceof RecyclerView) {
-                        RecyclerView recyclerView = (RecyclerView) view;
-                        RecyclerView.Adapter adapter = recyclerView.getAdapter();
-                        if (adapter != null) {
-                            count[0] = adapter.getItemCount();
-                        }
-                    }
-                });
-        return count[0];
-    }
-
-    public static String getTextFromNews(int fieldId, int position) {
-        final String[] itemDateText = new String[1];
-        onView(withRecyclerView(R.id.news_list_recycler_view).atPosition(position))
-                .check((view, noViewFoundException) -> {
-                    if (noViewFoundException != null) {
-                        throw noViewFoundException;
-                    }
-                    TextView dateTextView = view.findViewById(fieldId);
-                    itemDateText[0] = dateTextView.getText().toString();
-                });
-        return itemDateText[0];
-    }
-
-    public static class GetHeightAfterClickViewAction implements ViewAction {
-
-        private int[] heightAfterClick;
-
-        public GetHeightAfterClickViewAction(int[] heightAfterClick) {
-            this.heightAfterClick = heightAfterClick;
-        }
-
-        @Override
-        public Matcher<View> getConstraints() {
-            return isAssignableFrom(RecyclerView.class);
-        }
-
-        @Override
-        public String getDescription() {
-            return "Get height after click";
-        }
-
-        @Override
-        public void perform(UiController uiController, View view) {
-            RecyclerView recyclerView = (RecyclerView) view;
-            View firstItem = recyclerView.getChildAt(0);
-            if (firstItem != null) {
-                heightAfterClick[0] = firstItem.getHeight();
-            }
-        }
-    }
-
-    public static ViewAction clickChildViewWithId(final int id) {
-        return new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return allOf(isAssignableFrom(ViewGroup.class), isDisplayed());
-            }
-
-            @Override
-            public String getDescription() {
-                return "click child view with id " + id;
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                View childView = view.findViewById(id);
-                childView.performClick();
-            }
-        };
-    }
-    public static String getUniqueScreenshotName() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-        String timestamp = dateFormat.format(new Date());
-        return "test_fail_" + timestamp;
-    }
-
-    public static boolean isLogIn() {
-        boolean check =false;
-        try {
-            waitElement(idSignInButton);
-            loginField.check(matches(isDisplayed()));
-            check = true;
-            return check;
-        } catch (NoMatchingViewException e) {
-            check = false;
-            return check;
-        } finally {
-            return check;
-        }
-    }
-    public static boolean isLogOut() {
-        boolean check =false;
-        try {
-            waitElement(LogOutId);
-            logOutButton.check(matches(isDisplayed()));
-            check = true;
-            return check;
-        } catch (NoMatchingViewException e) {
-            check = false;
-            return check;
-        } finally {
-            return check;
-        }
-    }
-
 }

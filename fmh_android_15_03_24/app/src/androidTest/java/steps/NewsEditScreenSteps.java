@@ -7,10 +7,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-
-
-import static screens.NewsScreen.errorAddingMessageId;
 import static data.DataHelper.waitUntilVisible;
+import static screens.NewsScreen.errorAddingMessageId;
 
 import data.Data;
 import data.DataHelper;
@@ -24,98 +22,104 @@ import screens.NewsScreen;
 
 public class NewsEditScreenSteps {
 
+    EditNews editNews = new EditNews();
+    AddingNewsScreen addingNewsScreen = new AddingNewsScreen();
+    NewsEditScreen newsEditScreen = new NewsEditScreen();
+    NewsScreen newsScreen = new NewsScreen();
+
     @Step("Проверяем сообщение о недопустимости наличия пустых полей при создании новости")
-    public static void neverFieldsDoesntBeEmptyMessage() {
+    public void neverFieldsDoesntBeEmptyMessage() {
         Allure.step("Проверяем сообщение о недопустимости наличия пустых полей при создании новости");
         waitUntilVisible(DataHelper.checkToast(errorAddingMessageId, true));
     }
+
     @Step("Получаем количество элементов в списке новостей")
-    public static int getItemCount() {
+    public int getItemCount() {
         Allure.step("Получаем количество элементов в списке новостей");
         int itemCount = DataHelper.getRecyclerViewItemCount(R.id.news_list_recycler_view);
         return itemCount;
     }
 
     @Step("Получаем дату первой новости из списка до сортировки")
-    public static String getFirstDateBeforeSorting() {
+    public String getFirstDateBeforeSorting() {
         Allure.step("Получаем дату первой новости из списка до сортировки");
         String firstDateBeforeSorting = DataHelper.getTextFromNews(R.id.news_item_publication_date_text_view, 0);
         return firstDateBeforeSorting;
     }
 
     @Step("Получаем дату последней новости из списка до сортировки")
-    public static String getLastDateBeforeSorting(int position) {
+    public String getLastDateBeforeSorting(int position) {
         Allure.step("Получаем дату последней новости из списка до сортировки");
         String lastDateBeforeSorting = DataHelper.getTextFromNews(R.id.news_item_publication_date_text_view, position);
         return lastDateBeforeSorting;
     }
 
     @Step("Прокручиваем список новостей до последнего элемента")
-    public static void scrollNewsToLastPosition(int itemCount) {
+    public void scrollNewsToLastPosition(int itemCount) {
         Allure.step("Прокручиваем список новостей до последнего элемента");
-        NewsScreen.scrollNewsToPosition(itemCount);
+        newsScreen.scrollNewsToPosition(itemCount);
     }
 
     @Step("Производим сортировку новостей ")
-    public static void sortingNewsStep() {
+    public void sortingNewsStep() {
         Allure.step("Производим сортировку новостей");
-        NewsScreen.sortingNews();
+        newsScreen.sortingNews();
     }
 
     @Step("Прокручиваем список новостей до первого элемента")
-    public static void scrollNewsToFirstPosition() {
+    public void scrollNewsToFirstPosition() {
         Allure.step("Прокручиваем список новостей до первого элемента");
-        NewsScreen.scrollNewsToPosition(0);
+        newsScreen.scrollNewsToPosition(0);
     }
 
     @Step("Получаем дату первой новости из списка после сортировки")
-    public static String getFirstDateAfterSorting() {
+    public String getFirstDateAfterSorting() {
         Allure.step("Получаем дату первой новости из списка после сортировки");
         String firstDateBeforeSorting = DataHelper.getTextFromNews(R.id.news_item_publication_date_text_view, 0);
         return firstDateBeforeSorting;
     }
 
     @Step("Получаем дату последней новости из списка после сортировки")
-    public static String getLastDateAfterSorting(int position) {
+    public String getLastDateAfterSorting(int position) {
         Allure.step("Получаем дату последней новости из списка после сортировки");
         String lastDateBeforeSorting = DataHelper.getTextFromNews(R.id.news_item_publication_date_text_view, position);
         return lastDateBeforeSorting;
     }
 
     @Step("Проверяем, что дата первой новости до сортировки равна дате последней новости после сортировки")
-    public static void checkDateAfterSortingOne(String firstDateBeforeSorting, String lastDateAfterSorting) {
+    public void checkDateAfterSortingOne(String firstDateBeforeSorting, String lastDateAfterSorting) {
         Allure.step("Проверяем, что дата первой новости до сортировки равна дате последней новости после сортировки");
         assertEquals(firstDateBeforeSorting, lastDateAfterSorting);
     }
 
     @Step("Проверяем, что дата последней новости до сортировки равна дате первой новости после сортировки")
-    public static void checkDateAfterSortingTwo(String lastDateBeforeSorting, String firstDateAfterSorting) {
+    public void checkDateAfterSortingTwo(String lastDateBeforeSorting, String firstDateAfterSorting) {
         Allure.step("Проверяем, что дата последней новости до сортировки равна дате первой новости после сортировки");
         assertEquals(lastDateBeforeSorting, firstDateAfterSorting);
     }
 
     @Step("Добавляем новость")
-    public static void addingNews() {
-       Allure.step("Добавляем новость");
-        AddingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, Data.dateNews, Data.timeNews, Data.descriptionNews);
+    public void addingNews() {
+        Allure.step("Добавляем новость");
+        addingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, Data.dateNews, Data.timeNews, Data.descriptionNews);
         DataHelper.waitElement(R.id.news_list_recycler_view);
-        NewsEditScreen.refreshListOfNews();
+        newsEditScreen.refreshListOfNews();
     }
 
     @Step("Прокручиваем список до созданной новости и кликаем на нее")
-    public static void scrollToNewsWithTittleAndClick() {
+    public void scrollToNewsWithTittleAndClick() {
         Allure.step("Прокручиваем список до созданной новости и кликаем на нее");
-        NewsEditScreen.scrollAndClickToNewsWithTittle(Data.tittleNews);
+        newsEditScreen.scrollAndClickToNewsWithTittle(Data.tittleNews);
     }
 
     @Step("Открываем новость на редактирование")
-    public static void editingNews() {
+    public void editingNews() {
         Allure.step("Открываем новость на редактирование");
-        NewsEditScreen.editNews(Data.tittleNews);
+        newsEditScreen.editNews(Data.tittleNews);
     }
 
     @Step("Проверяем, что все атрибуты новости соответствуют заданным при ее создании")
-    public static void checkAttributesNews() {
+    public void checkAttributesNews() {
         Allure.step("Проверяем, что все атрибуты новости соответствуют заданным при ее создании");
         onView(withText(Data.tittleNews)).check(matches(isDisplayed()));
         onView(withText(Data.dateNews)).check(matches(isDisplayed()));
@@ -124,13 +128,13 @@ public class NewsEditScreenSteps {
     }
 
     @Step("Производим фильтрацию новостей по статусу Активна")
-    public static void filterNewsByStatusActive() {
+    public void filterNewsByStatusActive() {
         Allure.step("Производим фильтрацию новостей по статусу Активна");
-        NewsScreen.filterNewsByStatus(true, false);
+        newsScreen.filterNewsByStatus(true, false);
     }
 
     @Step("Проверяем, что во всех элементах списка новостей статус соответствует Активна")
-    public static void isStatusActive(int itemCount) {
+    public void isStatusActive(int itemCount) {
         Allure.step("Проверяем, что во всех элементах списка новостей статус соответствует Активна");
         for (int i = 0; i < itemCount; i++) {
             NewsEditScreen.scrollNews(i);
@@ -140,13 +144,13 @@ public class NewsEditScreenSteps {
     }
 
     @Step("Производим фильтрацию новостей по статусу Неактивна")
-    public static void filterNewsByStatusNotActive() {
+    public void filterNewsByStatusNotActive() {
         Allure.step("Производим фильтрацию новостей по статусу Неактивна");
-        NewsScreen.filterNewsByStatus(false, true);
+        newsScreen.filterNewsByStatus(false, true);
     }
 
     @Step("Проверяем, что во всех элементах списка новостей статус соответствует Неактивна")
-    public static void isStatusNotActive(int itemCount) {
+    public void isStatusNotActive(int itemCount) {
         Allure.step("Проверяем, что во всех элементах списка новостей статус соответствует Неактивна");
         for (int i = 0; i < itemCount; i++) {
             NewsEditScreen.scrollNews(i);
@@ -156,13 +160,13 @@ public class NewsEditScreenSteps {
     }
 
     @Step("Производим фильтрацию новостей по статусу Активна и дате публикации")
-    public static void filterNewsByStatusActiveAndPublishDate() {
+    public void filterNewsByStatusActiveAndPublishDate() {
         Allure.step("Производим фильтрацию новостей по статусу Активна и дате публикации");
-        NewsScreen.filterNewsByStatusAndDate(true, false, Data.dateNews, Data.dateNews);
+        newsScreen.filterNewsByStatusAndDate(true, false, Data.dateNews, Data.dateNews);
     }
 
     @Step("Проверяем, что во всех элементах списка новостей статус соответствует Активна и дата публикации равна дате фильтрации")
-    public static void isStatusActiveAndPublishDateEqualsFilterDate(int itemCount) {
+    public void isStatusActiveAndPublishDateEqualsFilterDate(int itemCount) {
         Allure.step("Проверяем, что во всех элементах списка новостей статус соответствует Активна и дата публикации равна дате фильтрации");
         for (int i = 0; i < itemCount; i++) {
             NewsEditScreen.scrollNews(i);
@@ -174,25 +178,25 @@ public class NewsEditScreenSteps {
     }
 
     @Step("Производим смену статуса новости на Неактивна")
-    public static void changeStatusNewsToNotActive() {
+    public void changeStatusNewsToNotActive() {
         Allure.step("Производим смену статуса новости на Неактивна");
-        NewsEditScreen.changeNewsStatus(Data.tittleNews);
+        newsEditScreen.changeNewsStatus(Data.tittleNews);
     }
 
     @Step("Проверяем, что статус новости соответствует Неактивна")
-    public static void checkNotActiveStatus() {
+    public void checkNotActiveStatus() {
         Allure.step("Проверяем, что статус новости соответствует Неактивна");
         onView(withText(Data.statusNotActive)).check(matches(isDisplayed()));
     }
 
     @Step("Производим фильтрацию новостей по статусу Неактивна и дате публикации")
-    public static void filterNewsByStatusNotActiveAndPublishDate() {
+    public void filterNewsByStatusNotActiveAndPublishDate() {
         Allure.step("Производим фильтрацию новостей по статусу Неактивна и дате публикации");
-        NewsScreen.filterNewsByStatusAndDate(false, true, Data.dateNews, Data.dateNews);
+        newsScreen.filterNewsByStatusAndDate(false, true, Data.dateNews, Data.dateNews);
     }
 
     @Step("Проверяем, что во всех элементах списка новостей статус соответствует Неактивна и дата публикации равна дате фильтрации")
-    public static void isStatusNotActiveAndPublishDateEqualsFilterDate(int itemCount) {
+    public void isStatusNotActiveAndPublishDateEqualsFilterDate(int itemCount) {
         Allure.step("Проверяем, что во всех элементах списка новостей статус соответствует Неактивна и дата публикации равна дате фильтрации");
         for (int i = 0; i < itemCount; i++) {
             NewsEditScreen.scrollNews(i);
@@ -204,56 +208,56 @@ public class NewsEditScreenSteps {
     }
 
     @Step("Пытаемся создать новость с незаполненным полем Категория")
-    public static void addNewsWithEmptyFieldCategory() {
+    public void addNewsWithEmptyFieldCategory() {
         Allure.step("Пытаемся создать новость с незаполненным полем Категория");
-        AddingNewsScreen.addNews("", Data.tittleNews, Data.dateNews, Data.timeNews, Data.descriptionNews);
+        addingNewsScreen.addNews("", Data.tittleNews, Data.dateNews, Data.timeNews, Data.descriptionNews);
     }
 
     @Step("Пытаемся создать новость с незаполненным полем Заголовок")
-    public static void addNewsWithEmptyFieldTittle() {
+    public void addNewsWithEmptyFieldTittle() {
         Allure.step("Пытаемся создать новость с незаполненным полем Заголовок");
-        AddingNewsScreen.addNews(Data.categoryForth, "", Data.dateNews, Data.timeNews, Data.descriptionNews);
+        addingNewsScreen.addNews(Data.categoryForth, "", Data.dateNews, Data.timeNews, Data.descriptionNews);
     }
 
     @Step("Пытаемся создать новость с незаполненным полем Дата")
-    public static void addNewsWithEmptyFieldDate() {
+    public void addNewsWithEmptyFieldDate() {
         Allure.step("Пытаемся создать новость с незаполненным полем Дата");
-        AddingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, "", Data.timeNews, Data.descriptionNews);
+        addingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, "", Data.timeNews, Data.descriptionNews);
     }
 
     @Step("Пытаемся создать новость с незаполненным полем Время")
-    public static void addNewsWithEmptyFieldTime() {
+    public void addNewsWithEmptyFieldTime() {
         Allure.step("Пытаемся создать новость с незаполненным полем Время");
-        AddingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, Data.dateNews, "", Data.descriptionNews);
+        addingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, Data.dateNews, "", Data.descriptionNews);
     }
 
     @Step("Пытаемся создать новость с незаполненным полем Описание")
-    public static void addNewsWithEmptyFieldDescription() {
+    public void addNewsWithEmptyFieldDescription() {
         Allure.step("Пытаемся создать новость с незаполненным полем Описание");
-        AddingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, Data.dateNews, Data.timeNews, "");
+        addingNewsScreen.addNews(Data.categoryForth, Data.tittleNews, Data.dateNews, Data.timeNews, "");
     }
 
     @Step("Заполняем все поля создаваемой новости")
-    public static void fillingAllFieldsNews() {
+    public void fillingAllFieldsNews() {
         Allure.step("Заполняем все поля создаваемой новости");
-        AddingNewsScreen.fillingNewsFields(Data.categoryForth, Data.tittleNews, Data.dateNews, Data.timeNews, Data.descriptionNews);
+        addingNewsScreen.fillingNewsFields(Data.categoryForth, Data.tittleNews, Data.dateNews, Data.timeNews, Data.descriptionNews);
     }
 
     @Step("Нажимаем Отмена")
-    public static void pressCancelButton() {
-       Allure.step("Нажимаем Отмена");
-        AddingNewsScreen.cancelButton.perform(click());
+    public void pressCancelButton() {
+        Allure.step("Нажимаем Отмена");
+        addingNewsScreen.cancelButton.perform(click());
     }
 
     @Step("Подтверждаем отмену создания новости")
-    public static void confirmCancelAddingNews() {
+    public void confirmCancelAddingNews() {
         Allure.step("Подтверждаем отмену создания новости");
-        AddingNewsScreen.cancelMessage.check(matches(isDisplayed()));
-        AddingNewsScreen.confirmCancelAddingNewsButton.perform(click());
+        addingNewsScreen.cancelMessage.check(matches(isDisplayed()));
+        addingNewsScreen.confirmCancelAddingNewsButton.perform(click());
     }
 
     @Step("Проверяем, что новость не создана")
-    public static void isNewsNotCreated(int itemCount) {
+    public void isNewsNotCreated(int itemCount) {
         Allure.step("Проверяем, что новость не создана");
         for (int i = 0; i < itemCount; i++) {
             NewsEditScreen.scrollNews(i);
@@ -263,14 +267,14 @@ public class NewsEditScreenSteps {
     }
 
     @Step("Удаляем созданную новость")
-    public static void deleteAddedNews() {
+    public void deleteAddedNews() {
         Allure.step("Удаляем созданную новость");
-        NewsEditScreen.deleteNews(Data.tittleNews);
+        newsEditScreen.deleteNews(Data.tittleNews);
         DataHelper.waitElement(R.id.news_list_recycler_view);
     }
 
     @Step("Проверяем, что новость удалена")
-    public static void isNewsDeleted(int itemCount) {
+    public void isNewsDeleted(int itemCount) {
         Allure.step("Проверяем, что новость удалена");
         for (int i = 0; i < itemCount; i++) {
             NewsEditScreen.scrollNews(i);
@@ -280,13 +284,13 @@ public class NewsEditScreenSteps {
     }
 
     @Step("Изменяем атрибуты созданной новости")
-    public static void changeCreatedNewsAttributes() {
+    public void changeCreatedNewsAttributes() {
         Allure.step("Изменяем атрибуты созданной новости");
-        EditNews.changeNewsAttribute(Data.newTittleNews, Data.dateNewsNextDay, Data.newTimeNews, Data.newDescriptionNews);
+        editNews.changeNewsAttribute(Data.newTittleNews, Data.dateNewsNextDay, Data.newTimeNews, Data.newDescriptionNews);
     }
 
-   @Step("Проверяем, что атрибуты созданной новости изменились")
-    public static void checkChangedNewsAttributes() {
+    @Step("Проверяем, что атрибуты созданной новости изменились")
+    public void checkChangedNewsAttributes() {
         Allure.step("Проверяем, что атрибуты созданной новости изменились");
         onView(withText(Data.newTittleNews)).check(matches(isDisplayed()));
         onView(withText(Data.dateNewsNextDay)).check(matches(isDisplayed()));

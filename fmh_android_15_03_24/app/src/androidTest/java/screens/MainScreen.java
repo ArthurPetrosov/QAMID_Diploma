@@ -1,9 +1,6 @@
 package screens;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -11,57 +8,17 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 import androidx.test.espresso.ViewInteraction;
 
-import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
 public class MainScreen {
-    public static ViewInteraction mainMenuButton =
-            onView(allOf(withId(R.id.main_menu_image_button), withContentDescription(R.string.main_menu)));
-    public static int mainMenuButtonId = R.id.main_menu_image_button;
-    public static ViewInteraction newsButton = onView(withText(R.string.news));
-    static ViewInteraction aboutButton = onView(withText(R.string.about));
-    static ViewInteraction allNewsButton = onView(allOf(withId(R.id.all_news_text_view),
+    public ViewInteraction mainMenuButton = onView(allOf(withId(R.id.main_menu_image_button), withContentDescription(R.string.main_menu)));
+    public ViewInteraction newsButton = onView(withText(R.string.news));
+    public ViewInteraction aboutButton = onView(withText(R.string.about));
+    public ViewInteraction allNewsButton = onView(allOf(withId(R.id.all_news_text_view),
             withText(R.string.all_news)));
-    public static int allNewsButtonId = R.id.all_news_text_view;
 
-    public static ViewInteraction logOutButton = onView(allOf(withId(R.id.authorization_image_button)));
-    public static int LogOutId = R.id.authorization_image_button;
+    public ViewInteraction logOutButton = onView(allOf(withId(R.id.authorization_image_button)));
 
-    public static ViewInteraction quotesButton = onView(allOf(withId(R.id.our_mission_image_button)));
-    public static int quotesButtonID = R.id.our_mission_image_button;
+    public ViewInteraction quotesButton = onView(allOf(withId(R.id.our_mission_image_button)));
 
-
-    public static void logOut() {
-        onView(withId(LogOutId)).perform(click());
-        onView(withId(android.R.id.title)).check(matches(isDisplayed()));
-        onView(withId(android.R.id.title)).perform(click());
-    }
-
-    public static void goToNewsScreen() {
-        DataHelper.waitElement(allNewsButtonId);
-        allNewsButton.perform(click());
-    }
-
-    public static void goToNewsPageByNavigationMenu() {
-        DataHelper.waitElement(mainMenuButtonId);
-        mainMenuButton.perform(click());
-        newsButton.check(matches(isDisplayed()));
-        newsButton.perform(click());
-    }
-
-    public static void goToAboutPage() {
-        DataHelper.waitElement(mainMenuButtonId);
-        mainMenuButton.perform(click());
-        aboutButton.check(matches(isDisplayed()));
-        aboutButton.perform(click());
-    }
-
-    public static void goToQuotesPage() {
-        DataHelper.waitElement(quotesButtonID);
-        quotesButton.perform(click());
-    }
-    public static void goToNewsPage() {
-        DataHelper.waitElement(allNewsButtonId);
-        allNewsButton.perform(click());
-    }
 }

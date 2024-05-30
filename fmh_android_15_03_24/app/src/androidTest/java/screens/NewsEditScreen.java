@@ -12,9 +12,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
-import static screens.AddingNewsScreen.confirmDelete;
-import static screens.EditNews.saveButton;
-import static screens.EditNews.statusSwitcher;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
@@ -23,21 +20,22 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import data.DataHelper;
 import ru.iteco.fmhandroid.R;
 
-public class NewsEditScreen extends NewsScreen {
+public class NewsEditScreen {
 
-    public static ViewInteraction addNewsButton = onView(withId(R.id.add_news_image_view));
-    public static ViewInteraction categoryIconImage = onView(withId(R.id.category_icon_image_view));
-    public static ViewInteraction tittleNewsEditing = onView(withId(R.id.news_item_title_text_view));
-    public static ViewInteraction datePublishNews = onView(withId(R.id.news_item_publication_date_text_view));
-    public static ViewInteraction dateCreateNews = onView(withId(R.id.news_item_create_date_text_view));
-    public static ViewInteraction authorNews = onView(withId(R.id.news_item_author_name_text_view));
-    public static ViewInteraction statusNews = onView(withId(R.id.news_item_published_text_view));
-    public static ViewInteraction deleteNewsButton = onView(withId(R.id.delete_news_item_image_view));
-    public static ViewInteraction editNewsButton = onView(withId(R.id.edit_news_item_image_view));
-    public static ViewInteraction expandNewsButton = onView(withId(R.id.view_news_item_image_view));
-    public static ViewInteraction descriptionNews = onView(withId(R.id.news_item_description_text_view));
-    public static ViewInteraction refreshZone = onView(withId(R.id.news_control_panel_swipe_to_refresh));
-
+    public ViewInteraction addNewsButton = onView(withId(R.id.add_news_image_view));
+    public ViewInteraction categoryIconImage = onView(withId(R.id.category_icon_image_view));
+    public ViewInteraction tittleNewsEditing = onView(withId(R.id.news_item_title_text_view));
+    public ViewInteraction datePublishNews = onView(withId(R.id.news_item_publication_date_text_view));
+    public ViewInteraction dateCreateNews = onView(withId(R.id.news_item_create_date_text_view));
+    public ViewInteraction authorNews = onView(withId(R.id.news_item_author_name_text_view));
+    public ViewInteraction statusNews = onView(withId(R.id.news_item_published_text_view));
+    public ViewInteraction deleteNewsButton = onView(withId(R.id.delete_news_item_image_view));
+    public ViewInteraction editNewsButton = onView(withId(R.id.edit_news_item_image_view));
+    public ViewInteraction expandNewsButton = onView(withId(R.id.view_news_item_image_view));
+    public ViewInteraction descriptionNews = onView(withId(R.id.news_item_description_text_view));
+    public ViewInteraction refreshZone = onView(withId(R.id.news_control_panel_swipe_to_refresh));
+    EditNews editNews = new EditNews();
+    AddingNewsScreen addingNewsScreen = new AddingNewsScreen();
 
     public static void scrollNews(int i) {
         onView(withId(R.id.news_list_recycler_view))
@@ -47,7 +45,7 @@ public class NewsEditScreen extends NewsScreen {
     }
 
 
-    public static void scrollAndClickToNewsWithTittle(String tittle) {
+    public void scrollAndClickToNewsWithTittle(String tittle) {
         DataHelper.waitElement(R.id.news_list_recycler_view);
         onView(withId(R.id.news_list_recycler_view))
                 .check(matches(isDisplayed()))
@@ -57,27 +55,27 @@ public class NewsEditScreen extends NewsScreen {
                 .perform(actionOnItem(hasDescendant(withText(tittle)), click()));
     }
 
-    public static void editNews(String tittle) {
+    public void editNews(String tittle) {
         scrollAndClickToNewsWithTittle(tittle);
         onView(allOf(withId(R.id.news_item_material_card_view), hasDescendant(withText(tittle))))
                 .perform(DataHelper.clickChildViewWithId(R.id.edit_news_item_image_view));
     }
 
-    public static void changeNewsStatus(String tittle) {
+    public void changeNewsStatus(String tittle) {
         scrollAndClickToNewsWithTittle(tittle);
         editNews(tittle);
-        statusSwitcher.perform(click());
-        saveButton.perform(click());
+        editNews.statusSwitcher.perform(click());
+        editNews.saveButton.perform(click());
     }
 
-    public static void deleteNews(String tittle) {
+    public void deleteNews(String tittle) {
         scrollAndClickToNewsWithTittle(tittle);
         onView(allOf(withId(R.id.news_item_material_card_view), hasDescendant(withText(tittle))))
                 .perform(DataHelper.clickChildViewWithId(R.id.delete_news_item_image_view));
-        confirmDelete();
+        addingNewsScreen.confirmDelete();
     }
 
-    public static void refreshListOfNews() {
+    public void refreshListOfNews() {
         refreshZone.perform(ViewActions.swipeDown());
         DataHelper.waitElement(R.id.news_list_recycler_view);
     }

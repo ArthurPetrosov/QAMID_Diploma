@@ -1,9 +1,6 @@
 package tests;
 
-import static data.DataHelper.getUniqueScreenshotName;
-import static screens.AuthorizationScreen.checkLogInAndLogInIfNot;
-import static steps.MainSteps.goToQuotesPageStep;
-
+import static data.DataHelper.generateScreenshotName;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -17,45 +14,47 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Epic;
 import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.iteco.fmhandroid.ui.AppActivity;
+import steps.AuthorizationSteps;
 import steps.MainSteps;
-import steps.QuotesScreenSteps;
+import steps.QuotesSteps;
 
 @Epic("Тестирование страницы Цитаты")
 @RunWith(AllureAndroidJUnit4.class)
 
 public class QuotesPageTest {
 
-    @Before
-    public void setUp() {
-        checkLogInAndLogInIfNot();
-        goToQuotesPageStep();
-    }
-
     @Rule
     public ActivityScenarioRule<AppActivity> myActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
-
     @Rule
-    public ScreenshotRule screenshotRule =
-            new ScreenshotRule(ScreenshotRule.Mode.FAILURE, getUniqueScreenshotName());
+    public ScreenshotRule screenshotRule = new ScreenshotRule(ScreenshotRule.Mode.FAILURE, generateScreenshotName("Failed"));
+    MainSteps mainSteps = new MainSteps();
+    AuthorizationSteps authorizationSteps = new AuthorizationSteps();
+    QuotesSteps quotesSteps = new QuotesSteps();
+
+    @Before
+    public void setUp() {
+        authorizationSteps.checkLogInAndLogInIfNot();
+        mainSteps.goToQuotesPage();
+    }
 
     @Test
     @DisplayName("Развернуть цитату")
     public void testExpandQuote() {
-        ViewInteraction recyclerView = QuotesScreenSteps.getQuotesRecyclerViewAndScrollToFirstPosition();
-        int heightBeforeClick = MainSteps.getHeightBeforeClick(recyclerView);
-        MainSteps.clickFirstItem(recyclerView);
-        int heightAfterClick = MainSteps.getHeightAfterClick(recyclerView);
-        MainSteps.checkHeightAfterClick(heightBeforeClick, heightAfterClick);
+        ViewInteraction recyclerView = quotesSteps.getQuotesRecyclerViewAndScrollToFirstPosition();
+        int heightBeforeClick = mainSteps.getHeightBeforeClick(recyclerView);
+        mainSteps.clickFirstItem(recyclerView);
+        int heightAfterClick = mainSteps.getHeightAfterClick(recyclerView);
+        mainSteps.checkHeightAfterClick(heightBeforeClick, heightAfterClick);
     }
 
     @Test
     @DisplayName("Свернуть цитату")
     public void testCollapseQuote() {
-        ViewInteraction recyclerView = QuotesScreenSteps.getQuotesRecyclerViewAndScrollToFirstPosition();
-        int heightBeforeClick = MainSteps.getHeightBeforeClick(recyclerView);
-        MainSteps.doubleClickFirstItem(recyclerView);
-        int heightAfterDoubleClick = MainSteps.getHeightAfterClick(recyclerView);
-        MainSteps.checkHeightAfterDoubleClick(heightBeforeClick, heightAfterDoubleClick);
+        ViewInteraction recyclerView = quotesSteps.getQuotesRecyclerViewAndScrollToFirstPosition();
+        int heightBeforeClick = mainSteps.getHeightBeforeClick(recyclerView);
+        mainSteps.doubleClickFirstItem(recyclerView);
+        int heightAfterDoubleClick = mainSteps.getHeightAfterClick(recyclerView);
+        mainSteps.checkHeightAfterDoubleClick(heightBeforeClick, heightAfterDoubleClick);
     }
 }

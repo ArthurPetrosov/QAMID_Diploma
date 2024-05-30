@@ -1,7 +1,6 @@
 package tests;
 
-import static data.DataHelper.getUniqueScreenshotName;
-import static screens.AuthorizationScreen.checkLogInAndLogInIfNot;
+import static data.DataHelper.generateScreenshotName;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -12,57 +11,58 @@ import org.junit.runner.RunWith;
 
 import io.qameta.allure.android.rules.ScreenshotRule;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
-import io.qameta.allure.kotlin.Epic;
 import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import steps.MainScreenSteps;
+import steps.AboutSteps;
+import steps.AuthorizationSteps;
+import steps.MainSteps;
+import steps.NewsSteps;
+import steps.QuotesSteps;
 
-@Epic("Тестирование главной страницы приложения")
 @RunWith(AllureAndroidJUnit4.class)
+public class MainTest {
 
-public class MainScreenTest {
+    @Rule
+    public ActivityScenarioRule<AppActivity> activityScenarioRule = new ActivityScenarioRule<>(AppActivity.class);
+    @Rule
+    public ScreenshotRule screenshotRule = new ScreenshotRule(ScreenshotRule.Mode.FAILURE, generateScreenshotName("Failed"));
+    AboutSteps aboutSteps = new AboutSteps();
+    AuthorizationSteps authorizationSteps = new AuthorizationSteps();
+    MainSteps mainSteps = new MainSteps();
+    NewsSteps newsStep = new NewsSteps();
+    QuotesSteps quotesSteps = new QuotesSteps();
 
     @Before
     public void setUp() {
-        checkLogInAndLogInIfNot();
+        authorizationSteps.checkLogInAndLogInIfNot();
     }
-
-
-    @Rule
-    public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(AppActivity.class);
-
-    @Rule
-    public ScreenshotRule screenshotRule =
-            new ScreenshotRule(ScreenshotRule.Mode.FAILURE, getUniqueScreenshotName());
-
 
     @Test
     @DisplayName("Переход в раздел Новости с помощью кнопки в меню навигации приложения")
     public void isItPossibleToGoToNewsSectionWithNavigationMenuButton() {
-        MainScreenSteps.goToNewsPageWithPressNavigationMenuButton();
-        MainScreenSteps.isEditingNewsButtonDisplayed();
+        mainSteps.goToNewsPageWithPressNavigationMenuButton();
+        newsStep.checkNewsPage();
     }
 
     @Test
     @DisplayName("Переход в раздел Новости с помощью кнопки на главной странице")
     public void isItPossibleToGoToNewsSectionWithMainPageButton() {
-        MainScreenSteps.goToNewsPageWithPressButtonOnMainPage();
-        MainScreenSteps.isEditingNewsButtonDisplayed();
+        mainSteps.goToNewsPageWithPressButtonOnMainPage();
+        newsStep.checkNewsPage();
     }
 
     @Test
     @DisplayName("Переход в раздел О приложении с помощью кнопки в меню навигации приложения")
     public void isItPossibleToGoToAboutSectionWithNavigationMenuButton() {
-        MainScreenSteps.goToAboutPageWithPressNavigationMenuButton();
-        MainScreenSteps.isDeveloperTextViewDisplayed();
+        mainSteps.goToAboutPage();
+        mainSteps.isDeveloperTextViewDisplayed();
     }
 
     @Test
     @DisplayName("Переход в раздел Цитаты с помощью кнопки на главной странице")
     public void isItPossibleToGoToQuotesSectionWithMainPageButton() {
-        MainScreenSteps.goToQuotesPageWithPressButtonOnMainPage();
-        MainScreenSteps.isHeaderQuotesPageDisplayed();
+        mainSteps.goToQuotesPage();
+        mainSteps.isHeaderQuotesPageDisplayed();
     }
 
 }
